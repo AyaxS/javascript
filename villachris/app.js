@@ -1,41 +1,58 @@
-var vc = document.getElementById('villachris');
-var papel = vc.getContext("2d");
-var mapa = "img/tile.png";
+var vp = document.getElementById("villaplatzi");
+var papel = vp.getContext("2d");
 
-var fondo = new Image();
-fondo.src = mapa;
-fondo.addEventListener('load', dibujarFondo);
+var fondo = {
+  url: "img/tile.png",
+  cargaOK: false
+}
+var vaca = {
+  url: "img/vaca.png",
+  cargaOK: false
+};
 
-var vaca = new Image();
-vaca.src = "img/vaca.png";
-vaca.addEventListener('load', dibujarVaca);
+var cantidad = aleatorio(1, 10);
 
-var cerdo = new Image();
-cerdo.src = "img/cerdo.png";
-cerdo.addEventListener('load', dibujarCerdo);
+fondo.imagen = new Image();
+fondo.imagen.src = fondo.url;
+fondo.imagen.addEventListener("load", cargarFondo);
 
-var pollo = new Image();
-pollo.src = "img/pollo.png";
-pollo.addEventListener('load', dibujarPollo);
+vaca.imagen = new Image();
+vaca.imagen.src = vaca.url;
+vaca.imagen.addEventListener("load", cargarVacas);
 
-function dibujarFondo() {
-    papel.drawImage(fondo,0,0);
+function cargarFondo()
+{
+  fondo.cargaOK = true;
+  dibujar();
+}
+function cargarVacas()
+{
+  vaca.cargaOK = true;
+  dibujar();
 }
 
-function dibujarVaca() {
-    papel.drawImage(vaca,400,10);
+function dibujar()
+{
+  if(fondo.cargaOK)
+  {
+    papel.drawImage(fondo.imagen, 0, 0);
+  }
+  if(vaca.cargaOK)
+  {
+    console.log(cantidad);
+    for(var v=0; v < cantidad; v++)
+    {
+      var x = aleatorio(0, 7);
+      var y = aleatorio(0, 10);
+      var x = x * 60;
+      var y = y * 40;
+      papel.drawImage(vaca.imagen, x, y);
+    }
+  }
 }
-
-function dibujarCerdo() {
-    papel.drawImage(cerdo,50,200);
-}
-
-function dibujarPollo() {
-    papel.drawImage(pollo,200,300);
-}
-
-function aleatorio(min, max) {
-    var resultado;
-    resultado = Math.floor(Math.random() * (max - min + 1)) + min;
-    return resultado;
+function aleatorio(min, maxi)
+{
+  var resultado;
+  resultado = Math.floor(Math.random() * (maxi - min + 1)) + min;
+  return resultado;
 }
